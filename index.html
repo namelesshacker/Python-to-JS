@@ -1,16 +1,38 @@
 <html>
   <head>
     <meta content="text/html; charset=UTF-8" http-equiv="content-type">
-    <script src="./jquery-1.11.3.js"></script>
-    <script src="./mqttws31.js"></script>
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.js" type="text/javascript"></script>
+<!--      <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>-->
+
     <script src="./jsClient.js"></script>
     <script>
 	    function pub() {
 	        var msg_str = "run reply";
 	        message = new Paho.MQTT.Message(msg_str);
-	        message.destinationName = "uicomm/j-p";
-	        client.send(message);    
+	        message.destinationName = "env/test/TEMP";
+	        message.qos = 2;
+<!--            undeliveredMessages.push({-->
+<!--                message: message,-->
+<!--                onMessageDeliveredCallback: onMessageDeliveredCallback-->
+<!--            });-->
+	        client.send(message);
+	        client.send('env/test/TEMPERATURE',msg_str, 0, true);
+
 	        console.log('publishing message:' + msg_str);
+
+
+<!--	        var newclient = new Paho.MQTT.Client("test.mosquitto.org", Number(8083),"/wss");-->
+<!--	        newclient.onConnectionLost = onConnectionLost;-->
+<!--            newclient.onMessageArrived = onMessageArrived;-->
+<!--            newclient.connect(connect_options);-->
+
+
+
+	        newmsg = new Paho.MQTT.Message("hello");
+            newmsg.destinationName = "env/test/TEMPERATURE";
+            client.send(newmsg);
+
    	   };
     </script>
   </head>
